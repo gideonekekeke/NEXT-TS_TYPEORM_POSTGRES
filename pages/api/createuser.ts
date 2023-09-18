@@ -1,25 +1,28 @@
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { createConnection, getRepository } from "typeorm";
-import { User } from "../../Entity/userEntity";
+import { NextApiRequest, NextApiResponse } from "next";
 import ensureConnection from "../../ormconfig";
+import User from "../../Entity/userEntity";
 
 ensureConnection();
 
-export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const myHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === "POST") {
 		try {
-			const { name } = req.body;
-
-			// Create a new user entity
+			const { email, username, password } = req.body;
 			const user = new User();
-			user.name = name;
+			user.email = email;
+			user.password = password;
+			user.username = username;
 
-			// Save the user to the database
 			await user.save();
+
+			res.status(201).json({ message: "User created successfully" });
 		} catch (error) {
-			res.status(500).json({ error: "User creation failed" });
+			console.error("Error creating user:", error);
+			res.status(500).json({ message: "Internal server error" });
 		}
 	} else {
-		res.status(405).json({ error: "Method not allowed" });
+		res.status(405).json({ message: "Method not allowed" });
 	}
 };
+4;
+export default myHandler;

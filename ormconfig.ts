@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { Connection, getConnectionManager } from "typeorm";
-import { User } from "./Entity";
+import User from "./Entity/userEntity";
 
 const options = {
 	default: {
@@ -10,11 +10,8 @@ const options = {
 		username: process.env.POSTGRES_USERNAME,
 		password: process.env.POSTGRES_PASSWORD,
 		database: process.env.POSTGRES_DATABASE,
-		synchronize: true,
-
-		entities: [
-			User, // etc...
-		],
+		synchronize: false,
+		entities: [User],
 	},
 };
 
