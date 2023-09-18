@@ -1,11 +1,21 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
-import "reflect-metadata";
+import {
+	Entity as TOEntity,
+	Column,
+	Index,
+	BeforeInsert,
+	OneToMany,
+} from "typeorm";
 
-@Entity({ name: "User" })
-export class User extends BaseEntity {
-	@PrimaryGeneratedColumn({})
-	id: string | number = "";
+import Entity from "./Entity";
+
+@TOEntity("users")
+export default class User extends Entity {
+	@Column({ unique: true })
+	email: string;
+
+	@Column({ unique: true })
+	username: string;
 
 	@Column()
-	name: string = "";
+	password: string;
 }
